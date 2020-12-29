@@ -1,3 +1,8 @@
+import sys
+sys.path.append("..")
+from chapter9.priority_queue_base import PriorityQueueBase
+
+
 class HeapPriorityQueue(PriorityQueueBase):
     """Priority queue implemented with a binary heap."""
     def _parent(self, j):

@@ -1,3 +1,8 @@
+import sys
+sys.path.append("..")
+from chapter9.priority_queue_base import PriorityQueueBase
+
+
 class UnsortedPriorityQueue(PriorityQueueBase):
     """Priority queue implemented with unsorted list."""
     def _find_min(self):
