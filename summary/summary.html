@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>summary.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<head>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            inlineMath: [['$','$']]
+            }
+        });
+    </script>
+</head>
+<ul>
+<li><a href="#data-structures-and-algorithms">Data Structures and Algorithms</a>
+<ul>
+<li><a href="#array">Array</a></li>
+<li><a href="#stack">Stack</a></li>
+<li><a href="#queue">Queue</a></li>
+<li><a href="#deque">Deque</a></li>
+<li><a href="#linked-list">Linked List</a>
+<ul>
+<li><a href="#singly-linked-list">Singly Linked List</a></li>
+<li><a href="#circularly-linked-list">Circularly Linked List</a></li>
+<li><a href="#doubly-linked-list">Doubly Linked List</a></li>
+<li><a href="#positional-list">Positional List</a></li>
+</ul>
+</li>
+<li><a href="#array-based-vs-linked-based">Array-based vs. Linked-based</a></li>
+<li><a href="#tree">Tree</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="data-structures-and-algorithms">Data Structures and Algorithms</h1>
+<h2 id="array">Array</h2>
+<p><strong>Referential array.</strong> Array of object references.</p>
+<div style="text-align: center"><img src="./images/referential_array.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+<p>E.g., Python lists, tuples.</p>
+<p><strong>Compact array.</strong> Array that store bits representing primary data.</p>
+<div style="text-align: center"><img src="./images/compact_array.png" width="300px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+<p><strong>Dynamic array.</strong> Resizable array that grows or shrinks based on the number of items it contains, so that its operations can have amortized $O(1)$ runtime.</p>
+<p>E.g., Python list is implemented using dynamic array.</p>
+<h2 id="stack">Stack</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Runtime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S.push(e)</td>
+<td>Add e to top of stack.</td>
+<td>$O(1)$*</td>
+</tr>
+<tr>
+<td>S.pop()</td>
+<td>Remove and return item from top of stack.</td>
+<td>$O(1)$*</td>
+</tr>
+<tr>
+<td>S.top(）</td>
+<td>Return reference to item at top of stack.</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>S.is_empty()</td>
+<td>Whether the stack is empty.</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>len(S)</td>
+<td>Return the number of items in the stack.</td>
+<td>$O(1)$</td>
+</tr>
+</tbody>
+</table>
+<p>*If implemented using a Python list, these operations are amortized.</p>
+<p>Applications:</p>
+<ol>
+<li>Reverse a list (push all items in and pop them one by one, first in last out).</li>
+<li>Parenthesis matching.</li>
+</ol>
+<h2 id="queue">Queue</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Runtime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q.enqueue(e)</td>
+<td>Add e to end of queue.</td>
+<td>$O(1)$*</td>
+</tr>
+<tr>
+<td>Q.dequeue()</td>
+<td>Remove and return item from front of queue.</td>
+<td>$O(1)$*</td>
+</tr>
+<tr>
+<td>Q.first()</td>
+<td>Return item at front of queue.</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>Q.is_empty()</td>
+<td>Whether the queue is empty.</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>len(Q)</td>
+<td>Return the number of items in the queue.</td>
+<td>$O(1)$</td>
+</tr>
+</tbody>
+</table>
+<p>*If implemented using a Python list (circular, wraps around when reaching end of list), these operations are amortized.</p>
+<h2 id="deque">Deque</h2>
+<p>Double-ended queue. ADT that can add and remove elements from both ends of the queue.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Runtime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D.add_first(e)</td>
+<td>Add e to front of dequeue.</td>
+<td>$O(1)$*</td>
+</tr>
+<tr>
+<td>D.add_last(e)</td>
+<td>Add e to end of dequeue.</td>
+<td>$O(1)$*</td>
+</tr>
+<tr>
+<td>D.delete_first(e)</td>
+<td>Remove and return item from front of dequeue.</td>
+<td>$O(1)$*</td>
+</tr>
+<tr>
+<td>D.delete_last(e)</td>
+<td>Remove and return item from end of dequeue.</td>
+<td>$O(1)$*</td>
+</tr>
+<tr>
+<td>D.first()</td>
+<td>Return and return item at the front of dequeue.</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>D.last()</td>
+<td>Return and return item at the end of dequeue.</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>D.is_empty()</td>
+<td>Whether the dequeue is empty.</td>
+<td>$O(1)$</td>
+</tr>
+<tr>
+<td>len(D)</td>
+<td>Return the number of items in the dequeue.</td>
+<td>$O(1)$</td>
+</tr>
+</tbody>
+</table>
+<p>*If implemented using a Python list (circular, wraps around), these operations are amortized.</p>
+<h2 id="linked-list">Linked List</h2>
+<h3 id="singly-linked-list">Singly Linked List</h3>
+<div style="text-align: center"><img src="./images/singly_linked_list.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+<p>Applications:</p>
+<ol>
+<li>Implement the Stack ADT, all operations are worst-case $O(1)$.</li>
+<li>Implement the Queue ADT, all operations are worst-case $O(1)$.</li>
+</ol>
+<h3 id="circularly-linked-list">Circularly Linked List</h3>
+<div style="text-align: center"><img src="./images/circularly_linked_list.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+<p>Applications:</p>
+<ol>
+<li>Implement the Queue ADT, with more efficient method for wrapping around.</li>
+</ol>
+<h3 id="doubly-linked-list">Doubly Linked List</h3>
+<div style="text-align: center"><img src="./images/doubly_linked_list.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+<p>Applications:</p>
+<ol>
+<li>Implement the Deque ADT.</li>
+<li>Implement the Positional List ADT.</li>
+</ol>
+<h3 id="positional-list">Positional List</h3>
+<div style="text-align: center"><img src="./images/positional_list.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L.first()</td>
+<td>Return the position of the first item.</td>
+</tr>
+<tr>
+<td>L.last()</td>
+<td>Return the position of the last item.</td>
+</tr>
+<tr>
+<td>L.before(p)</td>
+<td>Return the position immediately before position p.</td>
+</tr>
+<tr>
+<td>L.after(p)</td>
+<td>Return the position immediately after position p.</td>
+</tr>
+<tr>
+<td>L.is_empty()</td>
+<td>Whether the positional list is empty.</td>
+</tr>
+<tr>
+<td>len(L)</td>
+<td>Return the number of items in the positional list.</td>
+</tr>
+<tr>
+<td>iter(L)</td>
+<td>Return a forward iterator of items in the positional list.</td>
+</tr>
+<tr>
+<td>L.add_first(e)</td>
+<td>Add e to the front of the positional list.</td>
+</tr>
+<tr>
+<td>L.add_last(e)</td>
+<td>Add e to the back of the positional list.</td>
+</tr>
+<tr>
+<td>L.add_before(p, e)</td>
+<td>Add e before position p.</td>
+</tr>
+<tr>
+<td>L.add_after(p, e)</td>
+<td>Add e after position p.</td>
+</tr>
+<tr>
+<td>L.replace(p, e)</td>
+<td>Replace the item at position p with e.</td>
+</tr>
+<tr>
+<td>L.delete(p)</td>
+<td>Remove and return the item at position p.</td>
+</tr>
+</tbody>
+</table>
+<p>Applications:</p>
+<ol>
+<li>Maintain access frequencies.</li>
+</ol>
+<h2 id="array-based-vs-linked-based">Array-based vs. Linked-based</h2>
+<table>
+<thead>
+<tr>
+<th>Metrics</th>
+<th>Array-based</th>
+<th>Linked-based</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>access based on index</td>
+<td>$O(1)$</td>
+<td>$O(n)$</td>
+</tr>
+<tr>
+<td>insertion, deletion</td>
+<td>$O(n)$ worst case</td>
+<td>$O(1)$ at arbitrary position</td>
+</tr>
+<tr>
+<td>memory usage</td>
+<td>$2n$ worst case (after resize)</td>
+<td>$2n$ for singly-linked lists $3n$ for doubly-linked lists</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tree">Tree</h2>
+<p>A tree $T$ is set of nodes storing elements such that the nodes have a parent-child relationship that satisfies the following properties:</p>
+<ul>
+<li>If $T$ is nonempty, it has a special node, called the root of $T$ , that has no parent.</li>
+<li>Each node $v$ of $T$ different from the root has a unique parent node $w$; every node with parent $w$ is a child of $w$.</li>
+</ul>
+<p><strong>Sibling.</strong> Two nodes are siblings if they have the same parent node.</p>
+<p><strong>External.</strong> A node is external if it has no children. A.k.a leaves.</p>
+<p><strong>Internal.</strong> A node is internal if it has &gt;= 1 children.</p>
+<p><strong>Edge.</strong> An edge of tree $T$ is a pair of nodes $(u,v)$ such that $u$ is the parent of $v$, or vice versa.</p>
+<p><strong>Path.</strong> A path of $T$ is a sequence of nodes such that any two consecutive nodes in the sequence form an edge.</p>
+<p><strong>Ordered Tree.</strong> A tree is ordered if there is a meaningful linear order among the children of each node.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T.root()</td>
+<td>Return the position of the tree's root.</td>
+</tr>
+<tr>
+<td>T.is_root(p)</td>
+<td>Whether position p is the tree's root.</td>
+</tr>
+<tr>
+<td>T.parent(p)</td>
+<td>Return the position of p's parent.</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>
