@@ -1,4 +1,6 @@
-from tree import Tree
+import sys
+sys.path.append("..")
+from chapter8.tree import Tree
 
 
 class BinaryTree(Tree):

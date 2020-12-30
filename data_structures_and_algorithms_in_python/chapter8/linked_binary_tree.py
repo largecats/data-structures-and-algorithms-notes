@@ -1,4 +1,6 @@
-from binary_tree import BinaryTree
+import sys
+sys.path.append("..")
+from chapter8.binary_tree import BinaryTree
 
 
 class LinkedBinaryTree(BinaryTree):

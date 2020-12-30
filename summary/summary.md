@@ -52,6 +52,10 @@
       - [Quadratic Probing](#quadratic-probing)
       - [Double Hashing](#double-hashing)
   - [Rehashing](#rehashing)
+  - [Sorted Search Table](#sorted-search-table)
+  - [Set](#set)
+- [Search Tree](#search-tree)
+  - [Binary Search Tree](#binary-search-tree)
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
 
@@ -77,6 +81,20 @@ E.g., Python lists, tuples.
 **Dynamic array.** Resizable array that grows or shrinks based on the number of items it contains, so that its operations can have amortized $O(1)$ runtime.
 
 E.g., Python list is implemented using dynamic array.
+
+| Operation                                   | Runtime                      |
+|---------------------------------------------|------------------------------|
+| `data[j] = val`                             | $O(1)$                       |
+| `data.append(value)`                        | $O(1)$*                      |
+| `data.insert(k, value)`                     | $O(n-k+1)$* (element shifts) |
+| `data.pop()`                                | $O(1)$*                      |
+| `data.pop(k)`<br/> `del data[k]`            | $O(n-k)$* (element shifts)   |
+| `data.remove(value)`                        | $O(n)$*                      |
+| `data1.extend(data2)`<br/> `data1 += data2` | $O(n_2)$*                    |
+| `data.reverse()`                            | $O(n)$                       |
+| `data.sort()`                               | $O(n\log n)$                 |
+
+* Amortized.
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
 
@@ -188,11 +206,15 @@ Applications:
 
 # Array-based vs. Linked-based
 
-| Metrics               | Array-based                    | Linked-based                                              |
-|-----------------------|--------------------------------|-----------------------------------------------------------|
-| access based on index | $O(1)$                         | $O(n)$                                                    |
-| insertion, deletion   | $O(n)$ worst case              | $O(1)$ at arbitrary position                              |
-| memory usage          | $2n$ worst case (after resize) | $2n$ for singly-linked lists $3n$ for doubly-linked lists |
+| Metrics               | Array-based                                | Link-based                                                |
+|-----------------------|--------------------------------------------|-----------------------------------------------------------|
+| access based on index | $O(1)$                                     | $O(n)$                                                    |
+| search                | $O(\log n)$ if sorted (binary search)      | $O(n)$                                                    |
+| insertion, deletion   | $O(n)$ worst case (need to shift elements) | $O(1)$ at arbitrary position                              |
+| memory usage          | $2n$ worst case (after resize)             | $2n$ for singly-linked lists $3n$ for doubly-linked lists |
+
+
+Compromise between array-based and link-based structures: Skip lists achieve average $O(\log n)$ search and update operations via a probabilistic method.
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
 
@@ -495,7 +517,7 @@ Remove:
 
 Since `add` and `remove_min` are both $O(\log n)$ for heap-based priority queue, heap-sort is $O(n\log n)$.
 
-In-place heap-sort:
+In-place heap-sort (can sort in-place because heap is complete binary tree which doesn't have gaps in array-based representation):
 
 <div style="text-align: center"><img src="./images/heap_sort_in_place.png" width="400px" /></div>
 <div align="center">
@@ -527,8 +549,6 @@ A hash function has two parts:
 <sup></sup>
 </div>
 
-<div style="page-break-after: always; visibility: hidden">\pagebreak</div>
-
 ### Hash codes
 
 1. Interpret keys are integers. If overflow, sum the upper and lower 32-bits, or take bitwise exclusive-or. Does not preserve meaningful order in the key's characters, if any.
@@ -544,7 +564,7 @@ A hash function has two parts:
 
 ### Separate Chaining
 
-<div style="text-align: center"><img src="./images/separate_chaining.png" width="600px" /></div>
+<div style="text-align: center"><img src="./images/separate_chaining.png" width="400px" /></div>
 <div align="center">
 <sup></sup>
 </div>
@@ -577,3 +597,62 @@ For secondary hash function $h'(i)$, iteratively tries the buckets $A[(h(k)+ f(i
 For each collision-handling scheme, there's a load factor threshold. If the load factor exceeds the threshold, the lookup efficiency will start degrading. For separate chaining, this is $0.9$, linear probing $0.5$, and Python dictionary's opening addressing $2/3$.
 
 After the threshold is exceeded, the hash table is usually resized to twice the capacity (and all entries rehashed) to restore efficiency.
+
+## Sorted Search Table
+
+A hash table where keys are sorted. The sortedness of the keys support inexact search such as searching for a range of keys.
+
+Array-based implementation of the sorted search table allows $O(\log n)$ search via binary search, though update operations are $O(n)$ because elements need to be shifted.
+
+## Set
+
+**Set.** A set is an unordered collection of elements, without duplicates, that typically supports efficient membership tests (e.g., using hash tables). 
+
+Sets are implemented using hash tables in Python. In fact, they are like maps with keys without values.
+
+**Multiset.** A multiset is like a set but allows duplicates.
+
+**Mutlimap.** A multimap is like a map but allows the same key to map to multiple values.
+
+| Operation      | Description                                     |
+|----------------|-------------------------------------------------|
+| `S.add(e)`     | Add `e` to the set if it's not yet in the set.  |
+| `S.discard(e)` | Remove `e` from the set if it's in the set.     |
+| `e in S`       | True if `e` is in the set.                      |
+| `len(S)`       | Return the number of elements in the set.       |
+| `iter(S)`      | Return an iteration of the elements in the set. |
+
+<div style="page-break-after: always; visibility: hidden">\pagebreak</div>
+
+# Search Tree
+
+## Binary Search Tree
+
+**Binary search tree.** A binary tree $T$ with each position $p$ storing a key-value pair $(k,v)$ such that:
+• Keys in $p$'s left subtree are $< k$.
+• Keys in $p$'s right subtree are $> k$.
+
+**Proposition.** An inorder traversal of a binary search tree visits positions in increasing order of their keys.
+
+**Successor of node.** The successor of the node at position $p$ is the node with the smallest value that is $>= p$ (the next node to visit right after $p$ in an inorder traversal). If $p$ has a right subtree, this is the leftmost node in its right subtree. Else, this is the nearest ancestor such that $p$ is in its left subtree.
+
+**Predecessor of node.** The predecessor of the node at position $p$ is the node with the largest value that is $<= p$ (the node visited right before $p$ in an inorder traversal). If $p$ has a left subtree, this is the rightmost node in its left subtree. Else, this is the nearest ancestor such that $p$ is in its right subtree.
+
+Efficiency of binary search in a binary search tree depends on its height:
+
+<div style="text-align: center"><img src="./images/binary_search.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+Deletion from binary search tree:
+
+<div style="text-align: center"><img src="./images/bst_deletion_one_child.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+<div style="text-align: center"><img src="./images/bst_deletion_two_children.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
