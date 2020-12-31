@@ -63,6 +63,13 @@
     - [Splay Tree](#splay-tree)
     - [(2, 4) Tree](#2-4-tree)
     - [Red-Black Tree](#red-black-tree)
+- [Sorting](#sorting)
+  - [Insertion-Sort](#insertion-sort)
+  - [Selection-Sort](#selection-sort)
+  - [Bubble-Sort](#bubble-sort)
+  - [Heap-Sort](#heap-sort-1)
+  - [Merge-Sort](#merge-sort)
+  - [Quick-sort](#quick-sort)
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
 
@@ -752,3 +759,103 @@ A red-black tree is a binary search tree with nodes colored red and black such t
 **Depth Property.** All nodes with zero or one children have the same black depth, defined as the number of black ancestors. (Recall that a node is its own ancestor).
 
 **Proposition.** The height of a red-black tree storing $n$ entries is $O(\log n)$.
+
+<div style="page-break-after: always; visibility: hidden">\pagebreak</div>
+
+# Sorting
+
+Runtime of sorting algorithms is bounded from above by $n!$, because sorting produces a permutation of the original sequence, and there are $n!$ permutations.
+
+## Insertion-Sort
+
+Maintain a sorted sub-list at the front, keep inserting the next element from the unsorted sub-list into the sorted sub-list to make sure it stays sorted.
+
+| Scenario   | Runtime  | Description                      |
+|------------|----------|----------------------------------|
+| Worst case | $O(n^2)$ | When input is sorted in reverse. |
+| Best case  | $O(n)$   | When input is sorted.            |
+| Average    | $O(n^2)$ |                                  |
+
+<div style="text-align: center"><img src="./images/insertion_sort_pseudo_code.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+<div style="text-align: center"><img src="./images/insertion_sort_pic.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+
+## Selection-Sort
+
+Maintain a sorted sub-list at the front, keep selecting the minimum from the unsorted sub-list and append to the sorted sub-list.
+
+| Scenario   | Runtime  | Description                |
+|------------|----------|----------------------------|
+| Worst case | $O(n^2)$ |                            |
+| Best case  | $O(n^2)$ | Even when input is sorted. |
+| Average    | $O(n^2)$ |                            |
+
+<div style="text-align: center"><img src="./images/selection_sort_pic.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+## Bubble-Sort
+
+Make $n$ passes, swapping every two items into order in each pass.
+
+| Scenario   | Runtime  | Description                      |
+|------------|----------|----------------------------------|
+| Worst case | $O(n^2)$ | When input is sorted in reverse. |
+| Best case  | $O(n)$   | When input is sorted.            |
+| Average    | $O(n^2)$ |                                  |
+
+<div style="text-align: center"><img src="./images/bubble_sort.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+## Heap-Sort
+
+First, add each item to heap. Then, keep popping the minimum from the heap.
+
+With unsorted/sorted list-based heaps, this is selection/insertion-sort.
+
+With linked/array-based binary tree-based heaps, this is heap-sort.
+| Scenario   | Runtime      | Description                                                                                                                                 |
+|------------|--------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| Worst case | $O(n\log n)$ |                                                                                                                                             |
+| Best case  | $O(n\log n)$ | If input is sorted, adding items to heap is $O(1)$ with array-based heaps, but down-heap bubbling when removing items is still $O(\log n)$. |
+| Average    | $O(n\log n)$ |                                                                                                                                             |
+
+## Merge-Sort
+
+Divide and conquer.
+
+1. Divide into two halves.
+2. Recursively sort on each half.
+3. Merge the sorted halves into a sorted list (where hard work is done).
+
+| Scenario   | Runtime      | Description |
+|------------|--------------|-------------|
+| Worst case | $O(n\log n)$ |             |
+| Best case  | $O(n\log n)$ |             |
+| Average    | $O(n\log n)$ |             |
+
+There are $\log n$ levels, and the merge step at each level is $O(n)$ ($O(n/2 * 2)$, $O(n/4 * 4)$, etc). So merge-sort is $O(n\log n)$.
+
+<div style="text-align: center"><img src="./images/merge_sort_runtime.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+## Quick-sort
+
+Divide and conquer.
+
+1. Pick a pivot.
+2. Divide into three parts: < pivot, = pivot, and > pivot (where hard work is done).
+3. Recursively sort the < pivot and > pivot parts.
+4. Merge the sorted parts by concatenation (hard work is alrd done is step 2).
