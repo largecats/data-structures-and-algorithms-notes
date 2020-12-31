@@ -60,9 +60,9 @@
   - [Balanced Search Tree](#balanced-search-tree)
     - [Rotation](#rotation)
     - [AVL Tree](#avl-tree)
-  - [Splay Tree](#splay-tree)
-  - [(2, 4) Tree](#2-4-tree)
-  - [Red-Black Tree](#red-black-tree)
+    - [Splay Tree](#splay-tree)
+    - [(2, 4) Tree](#2-4-tree)
+    - [Red-Black Tree](#red-black-tree)
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
 
@@ -730,19 +730,19 @@ So AVL tree guarantees $O(\log n)$ bound for binary search tree operations.
 <sup></sup>
 </div>
 
-## Splay Tree
+### Splay Tree
 
 Moves more frequently accessed nodes closer to the root.
 
 Amortized $O(\log n)$ for search, insertions, deletions.
 
-## (2, 4) Tree
+### (2, 4) Tree
 
 Particular case of a multiway search tree, where each node may have multiple children. Each internal node has 2, 3, or 4 children.
 
 Operations' runtime is the same as AVL tree.
 
-## Red-Black Tree
+### Red-Black Tree
 
 Only requires $O(1)$ structural operations for rebalancing (instead of $O(\log n)$ as in AVL tree).
 
