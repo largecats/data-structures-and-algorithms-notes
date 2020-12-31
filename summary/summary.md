@@ -60,6 +60,9 @@
   - [Balanced Search Tree](#balanced-search-tree)
     - [Rotation](#rotation)
     - [AVL Tree](#avl-tree)
+  - [Splay Tree](#splay-tree)
+  - [(2, 4) Tree](#2-4-tree)
+  - [Red-Black Tree](#red-black-tree)
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
 
@@ -726,3 +729,24 @@ So AVL tree guarantees $O(\log n)$ bound for binary search tree operations.
 <div align="center">
 <sup></sup>
 </div>
+
+## Splay Tree
+
+Moves more frequently accessed nodes closer to the root.
+
+Amortized $O(\log n)$ for search, insertions, deletions.
+
+## (2, 4) Tree
+
+Particular case of a multiway search tree, where each node may have multiple children. Each internal node has 2, 3, or 4 children.
+
+## Red-Black Tree
+
+Better runtime than AVL tree for rebalancing: $O(1)$ instead of $O(\log n)$.
+
+A red-black tree is a binary search tree with nodes colored red and black such that:<br/>
+**Root Property.** The root is black.<br/>
+**Red Property.** The children of a red node (if any) are black.<br/>
+**Depth Property.** All nodes with zero or one children have the same black depth, defined as the number of black ancestors. (Recall that a node is its own ancestor).
+
+**Proposition.** The height of a red-black tree storing $n$ entries is $O(\log n)$.
