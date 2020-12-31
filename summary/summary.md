@@ -56,6 +56,10 @@
   - [Set](#set)
 - [Search Tree](#search-tree)
   - [Binary Search Tree](#binary-search-tree)
+    - [Efficiency](#efficiency)
+  - [Balanced Search Tree](#balanced-search-tree)
+    - [Rotation](#rotation)
+    - [AVL Tree](#avl-tree)
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
 
@@ -481,7 +485,7 @@ Add:
 1. Add item to rightmost node at bottom level to maintain completeness.
 2. Up-heap bubbling to swap the new node into correct position to maintain heap-order.
 
-<div style="text-align: center"><img src="./images/upheap_bubbling.png" width="400px" /></div>
+<div style="text-align: center"><img src="./images/upheap_bubbling.png" width="600px" /></div>
 <div align="center">
 <sup></sup>
 </div>
@@ -491,7 +495,7 @@ Remove:
 2. Copy item at rightmost node at bottom level to root.
 3. Down-heap bubbling to swap the node into correct position to maintain heap order.
 
-<div style="text-align: center"><img src="./images/downheap_bubbling.png" width="400px" /></div>
+<div style="text-align: center"><img src="./images/downheap_bubbling.png" width="600px" /></div>
 <div align="center">
 <sup></sup>
 </div>
@@ -519,7 +523,7 @@ Since `add` and `remove_min` are both $O(\log n)$ for heap-based priority queue,
 
 In-place heap-sort (can sort in-place because heap is complete binary tree which doesn't have gaps in array-based representation):
 
-<div style="text-align: center"><img src="./images/heap_sort_in_place.png" width="400px" /></div>
+<div style="text-align: center"><img src="./images/heap_sort_in_place.png" width="600px" /></div>
 <div align="center">
 <sup></sup>
 </div>
@@ -638,13 +642,6 @@ Sets are implemented using hash tables in Python. In fact, they are like maps wi
 
 **Predecessor of node.** The predecessor of the node at position $p$ is the node with the largest value that is $<= p$ (the node visited right before $p$ in an inorder traversal). If $p$ has a left subtree, this is the rightmost node in its left subtree. Else, this is the nearest ancestor such that $p$ is in its right subtree.
 
-Efficiency of binary search in a binary search tree depends on its height:
-
-<div style="text-align: center"><img src="./images/binary_search.png" width="600px" /></div>
-<div align="center">
-<sup></sup>
-</div>
-
 Deletion from binary search tree:
 
 <div style="text-align: center"><img src="./images/bst_deletion_one_child.png" width="600px" /></div>
@@ -653,6 +650,79 @@ Deletion from binary search tree:
 </div>
 
 <div style="text-align: center"><img src="./images/bst_deletion_two_children.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+### Efficiency
+
+Efficiency of binary search in a binary search tree depends on its height. So we need methods to balance a binary tree.
+
+<div style="text-align: center"><img src="./images/binary_search.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+## Balanced Search Tree
+
+### Rotation
+
+<div style="text-align: center"><img src="./images/single_rotation.png" width="600px" /></div>
+<div align="center">
+<sup>Rotating y above parent z, with x remaining as y's subtree.</sup>
+</div>
+
+<div style="text-align: center"><img src="./images/double_rotation.png" width="600px" /></div>
+<div align="center">
+<sup>Rotating x above parent y, then above grandparent z (with y remaining as x's subtree).</sup>
+</div>
+
+After the first rotation, the first tree becomes
+```
+a=z
+    b=x
+        c=y
+```
+And the second tree becomes
+```
+        c=z
+    b=x
+a=y
+```
+Rotating $x$ above $z$ gives the result (the relation between $x$ and $y$ remains unchanged in this rotation).
+
+### AVL Tree
+
+An AVL tree is a binary search that satisfies the following:
+
+**Height balance property.** For every position $p$ of $T$, the heights* of the children of $p$ differ by at most $1$.
+
+**\*Height of node (alternate definition).** Number of nodes (instead of edges) in a longest path from $p$ to a leaf. E.g., height of a leaf is $1$.
+
+<div style="text-align: center"><img src="./images/avl_tree.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+**Proposition.** The height of an AVL tree storing $n$ entries is $O(\log n)$.
+
+**Balanced node.** In a binary search tree $T$, a position is balanced if the absolute value of the difference between the heights of its children is at most $1$.
+
+So the height balance property <=> every node is balanced.
+
+<div style="text-align: center"><img src="./images/avl_tree_insertion.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+<div style="text-align: center"><img src="./images/avl_tree_deletion.png" width="600px" /></div>
+<div align="center">
+<sup>For deletion, need to continue walking upward to repair further unbalances, until reaching the root. This is bounded by O(log n).</sup>
+</div>
+
+So AVL tree guarantees $O(\log n)$ bound for binary search tree operations.
+
+<div style="text-align: center"><img src="./images/avl_tree_performance.png" width="600px" /></div>
 <div align="center">
 <sup></sup>
 </div>

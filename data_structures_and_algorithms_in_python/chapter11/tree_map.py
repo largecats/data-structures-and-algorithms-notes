@@ -15,6 +15,57 @@ class TreeMap(LinkedBinaryTree, MapBase):
             """Return value of map's key-value pair."""
             return self.element()._value
 
+    def _rebalance_insert(self, p):
+        """Rebalance the binary tree after insertion."""
+        pass
+
+    def _rebalance_delete(self, p):
+        """Rebalance the binary tree after deletion."""
+        pass
+
+    def _rebalance_access(self, p):
+        """Restructure the binary tree to bring frequently accessed nodes closer to the root (splay tree)."""
+        pass
+
+    def _relink(self, parent, child, make_left_child):
+        """Relink parent nodde with child node (can be None)."""
+        if make_left_child:  # make child a left child
+            pare._left = child
+        else:  # make child a right child
+            parent._right = child
+        if child is not None:
+            child._parent = parent
+
+    def _rotate(self, p):
+        """Rotate Position p above its parent."""
+        x = p._node
+        y = x._parent
+        z = y._parent  # x's grandparent
+        if z is None:
+            self._root = x
+            x._parent = None
+        else:
+            self._relink(z, x, y == z._left)  # make x a child of z, replacing y
+        # now rotate x and y
+        if x == y._left:  # if x is y's left child
+            self._relink(y, x._right, True)  # x's right child (the middle subtree T2) becomes y's left child
+            self._relink(x, y, False)  # y becomes x's right child
+        else:  # if x is y's right child
+            self._relink(y, x._left, False)  # x's left child (the middle subtree T2) becomes y's right child
+            self._relink(x, y, True)  # y becomse x's left child
+
+    def _restructure(self, x):
+        """Perform trinode restructure of Position x with parent/grandparent."""
+        y = self.parent(x)
+        z = self.parent(y)
+        if (x == self.right(y)) == (y == self.right(z)):  # y is z's right child, x is y's right child
+            self._rotate(y)  # single rotation of y above z
+            return y
+        else:
+            self._rotate(x)  # double rotation of x above y, then above z
+            self._rotate(x)
+            return x
+
     def _subtree_search(self, p, k):
         """Return Postion of p's subtree having key k, or last node searched."""
         if k == p.key():
