@@ -720,7 +720,7 @@ So the height balance property <=> every node is balanced.
 
 <div style="text-align: center"><img src="./images/avl_tree_deletion.png" width="600px" /></div>
 <div align="center">
-<sup>For deletion, need to continue walking upward to repair further unbalances, until reaching the root. This is bounded by O(log n).</sup>
+<sup>For deletion, need to continue walking upward to repair further unbalances, until reaching the root. The number of operations is bounded by tree height O(log n).</sup>
 </div>
 
 So AVL tree guarantees $O(\log n)$ bound for binary search tree operations.
@@ -740,9 +740,11 @@ Amortized $O(\log n)$ for search, insertions, deletions.
 
 Particular case of a multiway search tree, where each node may have multiple children. Each internal node has 2, 3, or 4 children.
 
+Operations' runtime is the same as AVL tree.
+
 ## Red-Black Tree
 
-Better runtime than AVL tree for rebalancing: $O(1)$ instead of $O(\log n)$.
+Only requires $O(1)$ structural operations for rebalancing (instead of $O(\log n)$ as in AVL tree).
 
 A red-black tree is a binary search tree with nodes colored red and black such that:<br/>
 **Root Property.** The root is black.<br/>
