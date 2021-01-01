@@ -69,7 +69,21 @@
   - [Bubble-Sort](#bubble-sort)
   - [Heap-Sort](#heap-sort-1)
   - [Merge-Sort](#merge-sort)
-  - [Quick-sort](#quick-sort)
+  - [Quick-Sort/Pivot-Sort](#quick-sortpivot-sort)
+  - [Linear-Time Sorting](#linear-time-sorting)
+    - [Bucket-Sort](#bucket-sort)
+    - [Radix-Sort](#radix-sort)
+  - [Comparing Sorting Algorithms](#comparing-sorting-algorithms)
+- [Selection](#selection)
+  - [Prune-and-Search/Decrease-and-Conquer](#prune-and-searchdecrease-and-conquer)
+    - [Randomized Quick-Select](#randomized-quick-select)
+- [Text-Processing](#text-processing)
+  - [Pattern-Matching](#pattern-matching)
+    - [Brute Force](#brute-force)
+    - [Boyer-Moore](#boyer-moore)
+    - [Knuth-Morris-Pratt (KMP)](#knuth-morris-pratt-kmp)
+- [Dynamic Programming](#dynamic-programming)
+  - [Knapsack Problem](#knapsack-problem)
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
 
@@ -764,7 +778,14 @@ A red-black tree is a binary search tree with nodes colored red and black such t
 
 # Sorting
 
-Runtime of sorting algorithms is bounded from above by $n!$, because sorting produces a permutation of the original sequence, and there are $n!$ permutations.
+Runtime of sorting algorithms is bounded from above by $O(n!)$, because sorting produces a permutation of the original sequence, and there are $n!$ permutations.
+
+Runtime of comparison-based sorting is bounded from below by $\Omega(n\log n)$.
+
+<div style="text-align: center"><img src="./images/comparison_based_sorting_lower_bound.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
 
 ## Insertion-Sort
 
@@ -851,11 +872,178 @@ There are $\log n$ levels, and the merge step at each level is $O(n)$ ($O(n/2 * 
 <sup></sup>
 </div>
 
-## Quick-sort
+## Quick-Sort/Pivot-Sort
 
 Divide and conquer.
 
 1. Pick a pivot.
-2. Divide into three parts: < pivot, = pivot, and > pivot (where hard work is done).
-3. Recursively sort the < pivot and > pivot parts.
+2. Divide into three parts: < pivot, = pivot, and > pivot (where hard work is done), can be done in-place to save space.
+3. Recursively sort the < pivot part and the > pivot part.
 4. Merge the sorted parts by concatenation (hard work is alrd done is step 2).
+
+<div style="text-align: center"><img src="./images/in_place_quick_sort.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+<div style="text-align: center"><img src="./images/in_place_quick_sort_pic.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+If pivot is randomized or divides the list into $1/2$, $1/2$ or $1/4$, $3/4$ at each step, the expected runtime is $O(n\log n)$. If pivot is badly chosen and the list is alrd sorted, runtime could be $O(n^2)$ (sub-list is $O(n)$ for each of the $n$ divisions).
+
+<div style="text-align: center"><img src="./images/quick_sort_runtime.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+Quick-Sort is not ideal for short sequences. Hybrid approach: Keep dividing and once the sub-problem size < some threshold, say, 50, switch to using insertion-sort, which is good on short sequences.
+
+## Linear-Time Sorting
+
+If the entries being sorted satisfy some additional constraints, we may avoid using comparisons and sort them in linear time.
+
+Consider the problem of sorting a sequence of entries, each a key-value pair, where the keys have a restricted type.
+
+### Bucket-Sort
+
+If we know that the range of the keys is, say, $[0, N-1]$ where $N$ is a constant, then can sort in $O(n+N) = O(n)$ time.
+
+Given a sequence $S$ with $n$ entries:
+
+1. Create a bucket array $B$ with $N$ entries.
+2. Remove each element $k$ from $S$ and insert it at the end of bucket $B[k]$ (stable sort) in case there are multiple entries with the same key ($O(n)$).
+3. Iterate the bucket array $B$ from front to back (so that the elements come out sorted), iterate each bucket from front to back (stable sort), remove each entry and insert it at the end of $S$ ($O(N)$).
+
+So if $N$ is $O(n)$ (e.g., a constant), this is linear time.
+
+### Radix-Sort
+
+Given a sequence $S$ with $n$ entries of key-value pairs, can sort in lexicographic order ($(k_1, v_1) < (k_2, v_2)$ if $k_1<k_2$ or $k_1=k_2$ and $v_1<v_2$) in $O(n)$ time.
+
+
+1. Use stable bucket-sort to sort on the second component $v_i$.
+2. Use stable bucket-sort to sort on the first component $k_i$ (stability here guarantees that the sorted second component remains sorted when the first component is the same).
+
+## Comparing Sorting Algorithms
+
+| Algorithm               | Runtime                                        | Stability      | Use case                       |
+|-------------------------|------------------------------------------------|----------------|--------------------------------|
+| Selection-Sort          | $O(n^2)$ best case                             | Can be stable. |                                |
+| Insertion-Sort          | $O(n^2)$ worst/average case, $O(n)$ best case  | Stable.        | Small sequences (<50)          |
+| Heap-Sort               | $O(n\log n)$                                   | Not stable.    | Small sequences                |
+| Quick-Sort/Pivot-Sort   | $O(n^2)$ worst case, $O(n\log n)$ average case | Not stable.    | Large sequences                |
+| Merge-Sort              | $O(n\log n)$ worst case                        | Stable.        | Difficult to do in-place.      |
+| Bucket-Sort, Radix-Sort | $O(n)$                                         | Stable.        | Key range is known in advance. |
+
+<div style="page-break-after: always; visibility: hidden">\pagebreak</div>
+
+# Selection
+
+The selection problem: Selecting the $k$th smallest element from an unsorted collection of $n$ comparable elements.
+
+## Prune-and-Search/Decrease-and-Conquer
+
+E.g., binary search.
+
+### Randomized Quick-Select
+
+Similar to randomized quick-sort.
+
+<div style="text-align: center"><img src="./images/quick_select.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+$O(n)$ average case, $O(n^2)$ worst case.
+
+<div style="page-break-after: always; visibility: hidden">\pagebreak</div>
+
+# Text-Processing
+
+## Pattern-Matching
+
+Given a text string $T$ of length $n$ and a pattern string $P$ of length $m$, find whether $P$ is a substring of $T$.
+
+### Brute Force
+
+For each of the $n-m+1$ possible starting index of $P$, try matching each of the $m$ characters in $P$.
+
+$O(mn)$.
+
+### Boyer-Moore
+
+Like brute force, but skip over indices that can't possibly match.
+
+Worst case $O(mn)$.
+
+<div style="text-align: center"><img src="./images/boyer_moore.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+<div style="text-align: center"><img src="./images/boyer_moore_2.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+<div style="text-align: center"><img src="./images/boyer_moore_code.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+<div style="text-align: center"><img src="./images/boyer_moore_example.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+### Knuth-Morris-Pratt (KMP)
+
+Like Boyer-Moore, but use a failure table to make maximum skips upon mismatches.
+
+$O(m+n)$.
+
+<div style="text-align: center"><img src="./images/kmp_example.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+<div style="text-align: center"><img src="./images/kmp_failure_function_example.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+
+<div style="text-align: center"><img src="./images/kmp_code.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+<div style="text-align: center"><img src="./images/kmp_failure_function.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+# Dynamic Programming
+
+## Knapsack Problem
+
+Given $n$ items, their values `values` and weights `weights`, and a knapsack with weight capacity `W`, how to pick items to put in the knapsack such that their total value is highest?
+
+For each item, it is either included in the knapsack or excluded. $O(2^n)$.
+
+```python
+def knapSack(W, weights, values, n): 
+
+    if n == 0 or W == 0: 
+        return 0
+    if (weights[n-1] > W): # item n is heavier than knapsack capacity, so can't include it
+        return knapSack(W, weights, values, n-1) # exclude item n
+    else: 
+        return max( 
+            values[n-1] + knapSack( 
+                W-weights[n-1], weights, values, n-1), # include item n
+            knapSack(W, weights, values, n-1) # exclude item n
+            )
+```
