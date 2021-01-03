@@ -1,93 +1,3 @@
-<head>
-    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-            tex2jax: {
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-            inlineMath: [['$','$']]
-            }
-        });
-    </script>
-</head>
-
-- [Array](#array)
-- [Stack](#stack)
-- [Queue](#queue)
-- [Deque](#deque)
-- [Linked List](#linked-list)
-  - [Singly Linked List](#singly-linked-list)
-  - [Circularly Linked List](#circularly-linked-list)
-  - [Doubly Linked List](#doubly-linked-list)
-  - [Positional List](#positional-list)
-- [Array-based vs. Linked-based](#array-based-vs-linked-based)
-- [Tree](#tree)
-  - [General Tree](#general-tree)
-  - [Binary Tree](#binary-tree)
-  - [Implementations](#implementations)
-    - [Linked Binary Tree](#linked-binary-tree)
-    - [Array-based Binary Tree](#array-based-binary-tree)
-    - [Linked General Tree](#linked-general-tree)
-  - [Tree Traversal Algorithms](#tree-traversal-algorithms)
-    - [Preorder (General Tree)](#preorder-general-tree)
-    - [Postorder (General Tree)](#postorder-general-tree)
-    - [Breadth-first (General Tree)](#breadth-first-general-tree)
-    - [Inorder (Binary Tree)](#inorder-binary-tree)
-- [Priority Queue](#priority-queue)
-  - [Unsorted Priority Queue](#unsorted-priority-queue)
-  - [Sorted Priority Queue](#sorted-priority-queue)
-  - [Sorting with Priority Queue](#sorting-with-priority-queue)
-  - [Adaptable Priority Queue](#adaptable-priority-queue)
-- [Heap](#heap)
-  - [Heap-based Priority Queue](#heap-based-priority-queue)
-  - [Heap-Sort](#heap-sort)
-- [Map](#map)
-- [Hash Table](#hash-table)
-  - [Hash Functions](#hash-functions)
-    - [Hash codes](#hash-codes)
-    - [Compression functions](#compression-functions)
-  - [Collision-handling schemes](#collision-handling-schemes)
-    - [Separate Chaining](#separate-chaining)
-    - [Open Addressing](#open-addressing)
-      - [Linear Probing](#linear-probing)
-      - [Quadratic Probing](#quadratic-probing)
-      - [Double Hashing](#double-hashing)
-  - [Rehashing](#rehashing)
-  - [Sorted Search Table](#sorted-search-table)
-  - [Set](#set)
-- [Search Tree](#search-tree)
-  - [Binary Search Tree](#binary-search-tree)
-    - [Efficiency](#efficiency)
-  - [Balanced Search Tree](#balanced-search-tree)
-    - [Rotation](#rotation)
-    - [AVL Tree](#avl-tree)
-    - [Splay Tree](#splay-tree)
-    - [(2, 4) Tree](#2-4-tree)
-    - [Red-Black Tree](#red-black-tree)
-- [Sorting](#sorting)
-  - [Insertion-Sort](#insertion-sort)
-  - [Selection-Sort](#selection-sort)
-  - [Bubble-Sort](#bubble-sort)
-  - [Heap-Sort](#heap-sort-1)
-  - [Merge-Sort](#merge-sort)
-  - [Quick-Sort/Pivot-Sort](#quick-sortpivot-sort)
-  - [Linear-Time Sorting](#linear-time-sorting)
-    - [Bucket-Sort](#bucket-sort)
-    - [Radix-Sort](#radix-sort)
-  - [Comparing Sorting Algorithms](#comparing-sorting-algorithms)
-- [Selection](#selection)
-  - [Prune-and-Search/Decrease-and-Conquer](#prune-and-searchdecrease-and-conquer)
-    - [Randomized Quick-Select](#randomized-quick-select)
-- [Text-Processing](#text-processing)
-  - [Pattern-Matching](#pattern-matching)
-    - [Brute Force](#brute-force)
-    - [Boyer-Moore](#boyer-moore)
-    - [Knuth-Morris-Pratt (KMP)](#knuth-morris-pratt-kmp)
-- [Dynamic Programming](#dynamic-programming)
-  - [Knapsack Problem](#knapsack-problem)
-
-<div style="page-break-after: always; visibility: hidden">\pagebreak</div>
-
-
 # Array
 
 **Referential array.** Array of object references.
@@ -111,7 +21,7 @@ E.g., Python lists, tuples.
 E.g., Python list is implemented using dynamic array.
 
 | Operation                                   | Runtime                      |
-|---------------------------------------------|------------------------------|
+| ------------------------------------------- | ---------------------------- |
 | `data[j] = val`                             | $O(1)$                       |
 | `data.append(value)`                        | $O(1)$*                      |
 | `data.insert(k, value)`                     | $O(n-k+1)$* (element shifts) |
@@ -124,8 +34,16 @@ E.g., Python list is implemented using dynamic array.
 
 * Amortized.
 
-<div style="page-break-after: always; visibility: hidden">\pagebreak</div>
+Reversing list:
+```ocaml
+# let rev list =
+    let rec aux acc = function
+      | [] -> acc
+      | h::t -> aux (h::acc) t in
+    aux [] list;;
+```
 
+<div style="page-break-after: always; visibility: hidden">\pagebreak</div>
 # Stack
 
 | Method         | Description                               | Runtime |
@@ -143,7 +61,6 @@ Applications:
 2. Parenthesis matching.
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
-
 # Queue
 
 | Method         | Description                                 | Runtime |
@@ -157,7 +74,6 @@ Applications:
 *If implemented using a Python list (circular, wraps around when reaching end of list), these operations are amortized.
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
-
 # Deque
 
 Double-ended queue. ADT that can add and remove elements from both ends of the queue.
@@ -173,7 +89,6 @@ Double-ended queue. ADT that can add and remove elements from both ends of the q
 *If implemented using a Python list (circular, wraps around), these operations are amortized.
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
-
 # Linked List
 
 ## Singly Linked List
@@ -231,26 +146,25 @@ Applications:
 1. Maintain access frequencies.
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
-
 # Array-based vs. Linked-based
 
-| Metrics               | Array-based                                | Link-based                                                |
-|-----------------------|--------------------------------------------|-----------------------------------------------------------|
-| access based on index | $O(1)$                                     | $O(n)$                                                    |
-| search                | $O(\log n)$ if sorted (binary search)      | $O(n)$                                                    |
-| insertion, deletion   | $O(n)$ worst case (need to shift elements) | $O(1)$ at arbitrary position                              |
-| memory usage          | $2n$ worst case (after resize)             | $2n$ for singly-linked lists $3n$ for doubly-linked lists |
+| Metrics               | Array-based                                | Link-based                                                    |
+|-----------------------|--------------------------------------------|---------------------------------------------------------------|
+| access based on index | $O(1)$                                     | $O(n)$                                                        |
+| search                | $O(\log n)$ if sorted (binary search)      | $O(n)$                                                        |
+| insertion, deletion   | $O(n)$ worst case (need to shift elements) | $O(1)$ at arbitrary position                                  |
+| memory usage          | $2n$ worst case (after resize)             | $2n$ for singly-linked lists<br/>$3n$ for doubly-linked lists |
 
 
 Compromise between array-based and link-based structures: Skip lists achieve average $O(\log n)$ search and update operations via a probabilistic method.
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
-
 # Tree
 
 ## General Tree
 
-A tree $T$ is set of nodes storing elements such that the nodes have a parent-child relationship that satisfies the following properties:
+**Tree.** A tree $T$ is set of nodes storing elements such that the nodes have a parent-child relationship that satisfies the following properties:
+
 * If $T$ is nonempty, it has a special node, called the root of $T$ , that has no parent.
 * Each node $v$ of $T$ different from the root has a unique parent node $w$; every node with parent $w$ is a child of $w$.
 
@@ -274,26 +188,29 @@ A tree $T$ is set of nodes storing elements such that the nodes have a parent-ch
 
 **Height of tree.** The height of a tree is the height of its root.
 
-| Method              | Description                                         |
-|---------------------|-----------------------------------------------------|
-| `T.root()`          | Return the position of the tree's root.             |
-| `T.is_root(p)`      | True if position `p` is the tree's root.            |
-| `T.parent(p)`       | Return the position of `p`'s parent.                |
-| `T.num children(p)` | Return the number of `p`'s children.                |
-| `T.children(p)`     | Generate an iteration of position `p`'s children.   |
-| `T.is leaf(p)`      | True if position `p` does not have any children.    |
-| `len(T)`            | Return the number of positions in the tree.         |
-| `T.is empty()`      | True if the tree does not contain any position.     |
-| `T.positions()`     | Generate an iteration of the positions in the tree. |
-| `iter(T)`           | Generate an iteration of the elements in the tree.  |
-| `T.depth(p)`        | Return the depth of `p`.                            |
-| `T.height(p)`       | Return the height of `p`.                           |
-
 **Proposition.** The height of a nonempty tree is the maximum of its leaves' depths.
 
 **Proposition.** In a tree with $n$ nodes, the sum of the number of children of all nodes is $n-1$.
 
 **Proof.** Every node except for the root is some other node's child.
+
+| Method              | Description                                         | Runtime    |
+|---------------------|-----------------------------------------------------|------------|
+| `T.root()`          | Return the position of the tree's root.             |            |
+| `T.is_root(p)`      | True if position `p` is the tree's root.            |            |
+| `T.parent(p)`       | Return the position of `p`'s parent.                |            |
+| `T.num children(p)` | Return the number of `p`'s children.                |            |
+| `T.children(p)`     | Generate an iteration of position `p`'s children.   |            |
+| `T.is leaf(p)`      | True if position `p` does not have any children.    |            |
+| `len(T)`            | Return the number of positions in the tree.         |            |
+| `T.is empty()`      | True if the tree does not contain any position.     |            |
+| `T.positions()`     | Generate an iteration of the positions in the tree. |            |
+| `iter(T)`           | Generate an iteration of the elements in the tree.  |            |
+| `T.depth(p)`        | Return the depth of `p`.                            | $O(d_p+1)$ |
+| `T.height()`        | Return the height of `T`.                           | $O(n)$*    |
+
+*`T.height()` computes height recursively, and it takes $O(\sum_p (1+c_p)) = O(n + \sum_p c_p)$ ($c_p$ is number of `p`
+s children), which is $O(n + (n - 1)) = O(n)$ time by the above proposition.
 
 ## Binary Tree
 
@@ -303,9 +220,9 @@ A tree $T$ is set of nodes storing elements such that the nodes have a parent-ch
 3. A left child precedes a right child in the order of children of a node.
 
 **Binary tree (recursive).** A binary tree is either empty or consists of:
-* A node $r$, called the root of $T$, that stores an element
-* A binary tree (possibly empty), called the left subtree of $T$
-* A binary tree (possibly empty), called the right subtree of $T$
+* A node $r$, called the root of $T$, that stores an element.
+* A binary tree (possibly empty), called the left subtree of $T$.
+* A binary tree (possibly empty), called the right subtree of $T$.
 
 | Method                    | Description                                    |
 |---------------------------|------------------------------------------------|
@@ -347,18 +264,22 @@ A tree $T$ is set of nodes storing elements such that the nodes have a parent-ch
 ### Array-based Binary Tree
 
 For every position $p$ of $T$ , let $f(p)$ be the integer defined as follows.
-• If $p$ is the root of $T$, then $f(p) = 0$.
-• If $p$ is the left child of position $q$, then $f(p) = 2f(q) + 1$.
-• If $p$ is the right child of position $q$, then $f(p) = 2f(q) + 2$.
+* If $p$ is the root of $T$, then $f(p) = 0$.
+* If $p$ is the left child of position $q$, then $f(p) = 2f(q) + 1$.
+* If $p$ is the right child of position $q$, then $f(p) = 2f(q) + 2$.
 
-**Array-based binary tree.** An array-based structure $A$ (such as a Python list), with the element at position $p$ of $T$ stored at $A[f(p)]$.
+An array-based structure $A$ (such as a Python list) of capacity $N$, with the element at position $p$ of $T$ stored at $A[f(p)]$.
 
 <div style="text-align: center"><img src="./images/array_based_binary_tree.png" width="600px" /></div>
 <div align="center">
 <sup></sup>
 </div>
 
-`delete` is $O(n)$ as all the node's descendents need to be shifted in the array.
+Drawbacks:
+* Space usage depends on the binary tree's shape.
+  * Worst case: All nodes in the right subtree of previous node, $N = 2^n-1$. 
+  * Best case: Binary tree is complete (e.g., heap), $N=n$.
+* `delete` is $O(n)$ as all the node's descendants need to be shifted in the array.
 
 ### Linked General Tree
 
@@ -427,7 +348,6 @@ Visit left subtree. Visit right subtree. Visit node.
 </div>
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
-
 # Priority Queue
 
 | Method           | Description                                                           |
@@ -485,14 +405,11 @@ Additional operations:
 2. Update the key (priority) of exiting entry.
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
-
 # Heap
 
-A heap is a binary tree $T$ that stores a collection of items at its positions and that satisfies the following two properties:
+A heap is a binary tree $T$ that satisfies the following:
 
-**Heap-Order Property.** (relational): In a heap $T$, for every position $p$ other than the root, the key stored at $p$ >= the key stored at $p$’s parent.
-
-This implies that the minimum item is at the heap's root.
+**Heap-Order Property.** (relational): In a heap $T$, for every position $p$ other than the root, the key stored at $p$ >= the key stored at $p$’s parent. (So the minimum is at the heap's root.)
 
 **Complete Binary Tree Property.** (structural): A heap $T$ with height $h$ is a complete binary tree if levels $0,1,2, \ldots ,h− 1$ of $T$ have the maximum number of nodes possible and the remaining nodes at level $h$ reside in the leftmost positions.
 
@@ -552,14 +469,17 @@ In-place heap-sort (can sort in-place because heap is complete binary tree which
 <sup></sup>
 </div>
 
-<div style="page-break-after: always; visibility: hidden">\pagebreak</div>
+<div style="text-align: center"><img src="./images/heap_sort_in_place_phase_2.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
 
+<div style="page-break-after: always; visibility: hidden">\pagebreak</div>
 # Map
 
 Python uses dictionary to represent namespace. Can assume $O(1)$ lookup time.
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
-
 # Hash Table
 
 Hash table is a lookup table structure that supports $O(1)$ lookup when implementing maps. The fast lookup is made possible by directly computing the hash table index from the map's key $k$ via a hash function $h(k)$.
@@ -572,15 +492,15 @@ A hash function has two parts:
 1. Hash code: keys $\to \mathbb{Z}$.
 2. Compression function: $\mathbb{Z} \to [0, N-1]$ ($N$ is the number of entries in the hash table).
 
-<div style="text-align: center"><img src="./images/hash_function.png" width="400px" /></div>
+<div style="text-align: center"><img src="./images/hash_function.png" width="600px" /></div>
 <div align="center">
 <sup></sup>
 </div>
 
 ### Hash codes
 
-1. Interpret keys are integers. If overflow, sum the upper and lower 32-bits, or take bitwise exclusive-or. Does not preserve meaningful order in the key's characters, if any.
-2. Polynomial in nonzero constant $a$.  $x_0a^{n-1} + x_1a^{n-2} + \cdots + x_{n-2}a + x_{n-1}$
+1. Interpret keys as integers. If overflow, sum the upper and lower 32-bits, or take bitwise exclusive-or. Does not preserve meaningful order in the key's individual components (e.g., characters in strings), if any.
+2. Polynomial in nonzero constant $a$.  $x_0a^{n-1} + x_1a^{n-2} + \cdots + x_{n-2}a + x_{n-1}$.
 3. Cyclic shift. Sum each character in the key and shift the partial sum's bits cyclically in between.
 
 ### Compression functions
@@ -601,8 +521,7 @@ A hash function has two parts:
 
 #### Linear Probing
 
-Iteratively tries the buckets $A[(h(k)+ i) \mod N]$, for $i = 0, 1, 2,\ldots$, until finding
-an empty bucket.
+Iteratively tries the buckets $A[(h(k)+ i) \mod N]$, for $i = 0, 1, 2,\ldots$, until finding an empty bucket.
 
 <div style="text-align: center"><img src="./images/linear_probing.png" width="600px" /></div>
 <div align="center">
@@ -622,7 +541,7 @@ For secondary hash function $h'(i)$, iteratively tries the buckets $A[(h(k)+ f(i
 
 **Load factor.** If $n$ is the number of entries in a bucket array of capacity $N$, then the hash table's load factor is $\lambda = n/N$.
 
-For each collision-handling scheme, there's a load factor threshold. If the load factor exceeds the threshold, the lookup efficiency will start degrading. For separate chaining, this is $0.9$, linear probing $0.5$, and Python dictionary's opening addressing $2/3$.
+For each collision-handling scheme, there's a load factor threshold. If the load factor exceeds the threshold, the lookup efficiency starts degrading. For separate chaining, this is $0.9$, linear probing $0.5$, and Python dictionary's opening addressing $2/3$.
 
 After the threshold is exceeded, the hash table is usually resized to twice the capacity (and all entries rehashed) to restore efficiency.
 
@@ -634,13 +553,13 @@ Array-based implementation of the sorted search table allows $O(\log n)$ search 
 
 ## Set
 
-**Set.** A set is an unordered collection of elements, without duplicates, that typically supports efficient membership tests (e.g., using hash tables). 
+**Set.** An unordered collection of elements, without duplicates, that typically supports efficient membership tests (e.g., using hash tables). 
 
 Sets are implemented using hash tables in Python. In fact, they are like maps with keys without values.
 
 **Multiset.** A multiset is like a set but allows duplicates.
 
-**Mutlimap.** A multimap is like a map but allows the same key to map to multiple values.
+**Multimap.** A multimap is like a map but allows the same key to map to multiple values.
 
 | Operation      | Description                                     |
 |----------------|-------------------------------------------------|
@@ -651,7 +570,6 @@ Sets are implemented using hash tables in Python. In fact, they are like maps wi
 | `iter(S)`      | Return an iteration of the elements in the set. |
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
-
 # Search Tree
 
 ## Binary Search Tree
@@ -662,16 +580,29 @@ Sets are implemented using hash tables in Python. In fact, they are like maps wi
 
 **Proposition.** An inorder traversal of a binary search tree visits positions in increasing order of their keys.
 
-**Successor of node.** The successor of the node at position $p$ is the node with the smallest value that is $>= p$ (the next node to visit right after $p$ in an inorder traversal). If $p$ has a right subtree, this is the leftmost node in its right subtree. Else, this is the nearest ancestor such that $p$ is in its left subtree.
+**Successor of node.** The successor of the node at position $p$ is the node with the smallest value that is $>= p$ (the next node to visit right after $p$ in an inorder traversal). 
 
-**Predecessor of node.** The predecessor of the node at position $p$ is the node with the largest value that is $<= p$ (the node visited right before $p$ in an inorder traversal). If $p$ has a left subtree, this is the rightmost node in its left subtree. Else, this is the nearest ancestor such that $p$ is in its right subtree.
+* If $p$ has a right subtree, this is the leftmost node in its right subtree. 
+* Else, this is the nearest ancestor such that $p$ is in its left subtree.
 
-Deletion from binary search tree:
+**Predecessor of node.** The predecessor of the node at position $p$ is the node with the largest value that is $<= p$ (the node visited right before $p$ in an inorder traversal). 
+
+* If $p$ has a left subtree, this is the rightmost node in its left subtree. 
+* Else, this is the nearest ancestor such that $p$ is in its right subtree.
+
+### Deletion
+
+If node to delete has only one child, replace it with its child:
 
 <div style="text-align: center"><img src="./images/bst_deletion_one_child.png" width="600px" /></div>
 <div align="center">
 <sup></sup>
 </div>
+If node to delete has two children, 
+
+1. replace it with its predecessor, and 
+2. replace its predecessor with its predecessor's child (the case above):
+
 
 <div style="text-align: center"><img src="./images/bst_deletion_two_children.png" width="600px" /></div>
 <div align="center">
@@ -680,12 +611,14 @@ Deletion from binary search tree:
 
 ### Efficiency
 
-Efficiency of binary search in a binary search tree depends on its height. So we need methods to balance a binary tree.
+Efficiency of binary search in a binary search tree depends on its height.
 
 <div style="text-align: center"><img src="./images/binary_search.png" width="600px" /></div>
 <div align="center">
 <sup></sup>
 </div>
+This motivates the following methods to balance a binary search tree.
+
 
 ## Balanced Search Tree
 
@@ -775,7 +708,6 @@ A red-black tree is a binary search tree with nodes colored red and black such t
 **Proposition.** The height of a red-black tree storing $n$ entries is $O(\log n)$.
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
-
 # Sorting
 
 Runtime of sorting algorithms is bounded from above by $O(n!)$, because sorting produces a permutation of the original sequence, and there are $n!$ permutations.
@@ -807,10 +739,9 @@ Maintain a sorted sub-list at the front, keep inserting the next element from th
 <sup></sup>
 </div>
 
-
 ## Selection-Sort
 
-Maintain a sorted sub-list at the front, keep selecting the minimum from the unsorted sub-list and append to the sorted sub-list.
+Maintain a sorted sub-list at the front, keep selecting the minimum from the unsorted sub-list and swapping it to the end of the sorted sub-list.
 
 | Scenario   | Runtime  | Description                |
 |------------|----------|----------------------------|
@@ -818,10 +749,11 @@ Maintain a sorted sub-list at the front, keep selecting the minimum from the uns
 | Best case  | $O(n^2)$ | Even when input is sorted. |
 | Average    | $O(n^2)$ |                            |
 
-<div style="text-align: center"><img src="./images/selection_sort_pic.png" width="600px" /></div>
+<div style="text-align: center"><img src="./images/selection_sort.png" width="600px" /></div>
 <div align="center">
 <sup></sup>
 </div>
+
 
 ## Bubble-Sort
 
@@ -938,7 +870,6 @@ Given a sequence $S$ with $n$ entries of key-value pairs, can sort in lexicograp
 | Bucket-Sort, Radix-Sort | $O(n)$                                         | Stable.        | Key range is known in advance. |
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
-
 # Selection
 
 The selection problem: Selecting the $k$th smallest element from an unsorted collection of $n$ comparable elements.
@@ -959,7 +890,6 @@ Similar to randomized quick-sort.
 $O(n)$ average case, $O(n^2)$ worst case.
 
 <div style="page-break-after: always; visibility: hidden">\pagebreak</div>
-
 # Text-Processing
 
 ## Pattern-Matching
@@ -1014,7 +944,6 @@ $O(m+n)$.
 <sup></sup>
 </div>
 
-
 <div style="text-align: center"><img src="./images/kmp_code.png" width="600px" /></div>
 <div align="center">
 <sup></sup>
@@ -1025,7 +954,10 @@ $O(m+n)$.
 <sup></sup>
 </div>
 
+<div style="page-break-after: always; visibility: hidden">\pagebreak</div>
 # Dynamic Programming
+
+For finding optimal solutions.
 
 ## Knapsack Problem
 
