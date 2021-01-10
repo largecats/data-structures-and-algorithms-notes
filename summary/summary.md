@@ -963,6 +963,8 @@ For finding optimal solutions.
 
 Given $n$ items, their values `values` and weights `weights`, and a knapsack with weight capacity `W`, how to pick items to put in the knapsack such that their total value is highest?
 
+### Brute Force
+
 For each item, it is either included in the knapsack or excluded. $O(2^n)$.
 
 ```python
@@ -979,3 +981,77 @@ def knapSack(W, weights, values, n):
             knapSack(W, weights, values, n-1) # exclude item n
             )
 ```
+
+### Memoisation
+
+We implement memoization by computing, bottom-up, a table `M` as a two-dimensional array, where `M[i][w]` stores the maximal price achievable by taking only the first `i` items while not exceeding the weight `W`. This improves time complexity to $O(n\cdot W)$ by replacing the two recursive calls with two lookups in the memoization table.
+
+```python
+def knapSack(W, weights, values, n): 
+    M = [[0 for x in range(W + 1)] for x in range(n + 1)] # initialize memoization table
+  
+    # build memoization table from bottom-up
+    for i in range(n + 1): # row is the range of indices of items allowed to take (from 0 to n)
+        for w in range(W + 1): # column is weight limit (from 0 to W)
+            if i == 0 or w == 0: # if only the first 0 item is allowed to take or if weight limit is 0, maximal price is 0
+                M[i][w] = 0
+            elif weights[i-1] <= w: # if item's weight <= current weight limit
+                M[i][w] = max( # recursive calls replaced by lookups in the memoization table M
+                    		values[i-1] + M[i-1][w - weights[i-1]], # take this item
+                    		M[i-1][w] # not taking this item
+                			)
+            else: # if item's weight > current weight limit, update the memoization table M[i][w] to be the same as M[i-1][w] because there's no improvement in price
+                M[i][w] = M[i-1][w]
+  
+    return M[n][W] # return the maximal price achievable by taking all n items while not exceeding the weight limit W
+```
+
+Reconstructing the list of items from the memoization table:
+
+```
+i  item    w  p |  0  1  2  3  4
+--------------------------------
+0  apple   1  1 |  0  1  1  1  1  
+1  melon   2  2 |  0  1  2  3  3  
+2  kiwi    1  2 |  0  2  3  4  5  
+3  durian  2  3 |  0  2  3  5  6 
+```
+
+Let `sack = []` . We start from the rightmost, bottom-most cell: `weight=4` and `i=3`, with price `6`.
+
+* The previous row has price `5`, less than `6` in current row, so durian was taken, and `sack = [3]`.
+* We subtract Durian's weight `2` and go to column `4 - 2 = 2` in the same row, repeating the process. The previous row has price `2`, less than `3` in current row, so kiwi was taken, and `sack = [3, 2]`.
+* We subtract Kiwi's weight `1` and go to column `2 - 1 = 1` in the same row. The previous row has price `1`, same as current row, so melon was not taken.
+* Finally, apple was taken, so `sack = [3, 2, 0]`.
+
+
+
+# Graph
+
+**Graph.** A graph $G$ is a set $V$ of vertices and a collection $E$ of pairs of vertices from $V$, called edges. 
+
+* A way of representing relations among objects in $V$.
+
+**Path.** A path is a sequence of alternating vertices and edges that starts at a vertex and ends at a vertex such that each edge is incident to its predecessor and successor vertex.
+
+**Cycle.** A cycle is a path that starts and ends at the same vertex, and that includes at least one edge. 
+
+**Simple path.** A path is simple if each vertex in the path is distinct.
+
+**Simple cycle.** A cycle is simple if each vertex in the cycle is distinct, except for the first and last one.  
+
+**Spanning subgraph.** A spanning subgraph of $G$ is a subgraph of $G$ that contains all the vertices of the graph $G$. 
+
+## Graph Traversal
+
+### Depth-First Search
+
+<div style="text-align: center"><img src="./images/graph_dfs_pseudo_code.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
+
+<div style="text-align: center"><img src="./images/graph_dfs_code.png" width="600px" /></div>
+<div align="center">
+<sup></sup>
+</div>
