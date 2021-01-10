@@ -982,7 +982,7 @@ def knapSack(W, weights, values, n):
             )
 ```
 
-### Memoisation
+### Memoization
 
 We implement memoization by computing, bottom-up, a table `M` as a two-dimensional array, where `M[i][w]` stores the maximal price achievable by taking only the first `i` items while not exceeding the weight `W`. This improves time complexity to $O(n\cdot W)$ by replacing the two recursive calls with two lookups in the memoization table.
 
@@ -1006,7 +1006,7 @@ def knapSack(W, weights, values, n):
     return M[n][W] # return the maximal price achievable by taking all n items while not exceeding the weight limit W
 ```
 
-Reconstructing the list of items from the memoization table:
+Reconstructing the list of items from the memoization table (the first row is ignored as it's full of zeroes):
 
 ```
 i  item    w  p |  0  1  2  3  4
@@ -1023,6 +1023,40 @@ Let `sack = []` . We start from the rightmost, bottom-most cell: `weight=4` and 
 * We subtract Durian's weight `2` and go to column `4 - 2 = 2` in the same row, repeating the process. The previous row has price `2`, less than `3` in current row, so kiwi was taken, and `sack = [3, 2]`.
 * We subtract Kiwi's weight `1` and go to column `2 - 1 = 1` in the same row. The previous row has price `1`, same as current row, so melon was not taken.
 * Finally, apple was taken, so `sack = [3, 2, 0]`.
+
+A similar improvement with Fibonacci:
+
+```python
+def fib(n):
+    if n < 2:
+        return n
+    else:
+        return fib(n-1) + fib(n-2)
+```
+
+This is slow because many subproblems are computed repeatedly. E.g.,
+
+```
+fib(5) = fib(4) + fib(3) = (fib(3) + fib(2)) + fib(3) = ...
+```
+
+Make it faster by "memorizing" the most immediate result:
+
+```python
+def fast_fib_helper(a, b, j):
+    if j == 1:
+        return b
+    else:
+        return fast_fib_helper(b, a + b, j - 1)
+   
+def fast_fib(n):
+    if n == 0:
+        return 1
+    else:
+        return fast_fib_helper(1, 1, n)
+```
+
+
 
 
 
