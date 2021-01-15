@@ -523,6 +523,8 @@ A hash function has two parts:
 
 Iteratively tries the buckets $A[(h(k)+ i) \mod N]$, for $i = 0, 1, 2,\ldots$, until finding an empty bucket.
 
+When implementing, need a special marker to distinguish between slots where an item has been deleted and slots that have always been empty.
+
 <div style="text-align: center"><img src="./images/linear_probing.png" width="600px" /></div>
 <div align="center">
 <sup></sup>
